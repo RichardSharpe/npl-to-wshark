@@ -1,0 +1,20 @@
+Copyright Richard Sharpe <realrichardsharpe@gmail.com>
+
+An NPL to Wireshark compiler/converter. NPL is Microsoft's NetMon Protocol
+Language.
+
+npl-scanner.l is the Flex lexical analysis input file.
+
+npl-to-wshark.y is the Lemon grammar
+
+test_driver is the current driver.
+
+make is your friend.
+
+'test_driver < test-proto.npl'
+
+or
+
+'test_driver test-proto.npl'
+
+This stuff will be GPL'd.
