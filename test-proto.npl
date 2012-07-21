@@ -1,4 +1,5 @@
 // A simple protocol description
+include "another-proto.npl"
 Protocol some_proto 
 {
     UINT8 some_field;

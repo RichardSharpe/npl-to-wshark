@@ -2,6 +2,7 @@
 
 %{
     #include <limits.h>
+    #include <stdio.h>
     #include "npl-to-wshark.h"
 
     #define MAX_STR_CONST 81
@@ -41,7 +42,34 @@
 <include>[ \t]*       { /* eat white space */ }
 
 <include>[^ \t]+$     { /* Got the include file name, could be quoted */
-	
+		int start_cpy = 0, len = 0;
+
+		/*
+		 * Copy the include name, strip the quotes.
+		 * Will have to handle paths at some time.
+		 */
+
+		if (yytext[0] == '"') start_cpy = 1;
+
+		strncpy(include_name, &yytext[start_cpy], PATH_MAX);
+
+		len = strlen(include_name);
+
+		if (include_name[len - start_cpy] == '"')
+			include_name[len - start_cpy] = '\0';
+
+		yyin = fopen(include_name, "r");
+
+		if (!yyin) {
+			/* Error message somewhere, should malloc space */
+			YY_FATAL_ERROR("Unable to open include file!\n");
+			return -1;
+		}
+
+		yypush_buffer_state(
+			yy_create_buffer(yyin, YY_BUF_SIZE, yyscanner),
+			yyscanner);
+
 		BEGIN(INITIAL);
 	}
 
