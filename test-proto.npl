@@ -1,3 +1,4 @@
+// A simple protocol description
 Protocol some_proto 
 {
     UINT8 some_field;

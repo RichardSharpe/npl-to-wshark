@@ -1,12 +1,17 @@
 %include
 {
     #include <cassert>
-    #include <iostreme>
+    #include <iostream>
 }
+
+%extra_argument { void *state }
 
 %token_type {const char *}
 
 %syntax_error { std::cerr << "Error parsing protocol\n"; }
+
+%left NAME STRING NUMBER HEXNUM .
+%left COMMA .
 
 protocol ::= register_clause proto_clause .
 {
@@ -28,19 +33,21 @@ proto_clause ::= PROTOCOL NAME EQUAL format_string def_string .
 
 }
 
-register_clause ::= LBRACK REGISTERAFTER param_list RBRACK .
+register_clause ::= LBRACK REGISTERAFTER params_list RBRACK .
 
-register_clause ::= LBRACK REGISTERBEFORE param_list RBRACK .
+register_clause ::= LBRACK REGISTERBEFORE params_list RBRACK .
 
 def_string ::= LBRACE def_list RBRACE .
 
-def_list ::= def_item def_list .
+def_list ::= def_list def_item .
 
 def_list ::= .
 
 def_item ::= STRUCT def_string .
 
 def_item ::= data_type NAME SEMICOLON .
+
+def_item ::= data_type NAME EQUAL format_string SEMICOLON .
 
 data_type ::= UINT8 .
 
@@ -50,14 +57,18 @@ data_type ::= UINT32 .
 
 data_type ::= UINT64 .
 
-def_item ::= ASCIISTRING RPAREN STRINGSIZE LPAREN NAME SEMICOLON .
+def_item ::= ASCIISTRING RPAREN NUMBER LPAREN NAME SEMICOLON .
 
-format_string ::= FORMATSTRING LPAREN param_list RPAREN .
+format_string ::= FORMATSTRING LPAREN params_list RPAREN .
 
-param_list ::= param_item param_list .
+params_list ::= params_list COMMA param_item .
 
-param_list ::= .
+params_list ::= param_item .
 
 param_item ::= NAME .
 
 param_item ::= STRING .
+
+param_item ::= NUMBER .
+
+param_item ::= HEXNUM .

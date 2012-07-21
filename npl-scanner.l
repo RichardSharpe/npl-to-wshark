@@ -7,7 +7,7 @@
 
     char string_buf[MAX_STR_CONST];
     char *string_buf_p;
-    int lineno = 0; 
+    int lineno = 1; 
 
 %}
 
@@ -16,6 +16,7 @@
 
 %x SINGLE_QUOTED
 %x DOUBLE_QUOTED
+%x include
 
 %%
     // This string handling stuff needs extending
