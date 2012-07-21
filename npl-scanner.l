@@ -1,10 +1,12 @@
 /* A simple scanner for NPL */
 
 %{
+    #include <limits.h>
     #include "npl-to-wshark.h"
 
     #define MAX_STR_CONST 81
 
+    char include_name[PATH_MAX + 1];
     char string_buf[MAX_STR_CONST];
     char *string_buf_p;
     int lineno = 1; 
@@ -31,6 +33,25 @@
 <DOUBLE_QUOTED><<EOF>> { return -1; }
 
 "//".*$     {}
+
+    /* Include file handling done here */
+
+^include   { BEGIN(include); }
+
+<include>[ \t]*       { /* eat white space */ }
+
+<include>[^ \t]+$     { /* Got the include file name, could be quoted */
+	
+		BEGIN(INITIAL);
+	}
+
+    /* Unwind include file */
+<<EOF>> {
+		yypop_buffer_state(yyscanner);
+		if (!YY_CURRENT_BUFFER) {
+			yyterminate();
+		}
+	}
 
 [ \r\t] {}
 
