@@ -6,12 +6,14 @@
     #include "npl-to-wshark.h"
 
     #define MAX_STR_CONST 81
+    #define MAX_INCLUDE_LEVELS 15
 
     char include_name[PATH_MAX + 1];
     char string_buf[MAX_STR_CONST];
     char *string_buf_p;
     int lineno = 1; 
-
+    int include_stack_lineno[MAX_INCLUDE_LEVELS];
+    int include_stack_ofs = 0;
 %}
 
 %option reentrant
@@ -66,6 +68,11 @@
 			return -1;
 		}
 
+		/* This will screw up if there are too many includes */
+		include_stack_lineno[include_stack_ofs++] = lineno;
+
+		lineno = 1;
+
 		yypush_buffer_state(
 			yy_create_buffer(yyin, YY_BUF_SIZE, yyscanner),
 			yyscanner);
@@ -78,6 +85,8 @@
 		yypop_buffer_state(yyscanner);
 		if (!YY_CURRENT_BUFFER) {
 			yyterminate();
+		} else {
+			lineno = include_stack_lineno[--include_stack_ofs];
 		}
 	}
 
@@ -90,6 +99,8 @@
 "AsciiString" { string_buf[0] = '\0'; return ASCIISTRING; }
 
 "FormatString" { string_buf[0] = '\0'; return FORMATSTRING; }
+
+"struct"   { string_buf[0] = '\0'; return STRUCT; }
 
 "UINT8"    { string_buf[0] = '\0'; return UINT8; }
 
