@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 	int lexcode;
 	while ((lexcode = yylex(scanner)) > 0) {
 
-		cout << "Line: " << lineno << " ";
+		cout << "Line: " << lineno << " LexVal = " << lexcode << " ";
 		switch (lexcode) {
                 case EQUAL:
 			cout << "LexCode = EQUAL\n";

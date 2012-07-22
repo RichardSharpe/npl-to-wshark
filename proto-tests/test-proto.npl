@@ -5,3 +5,8 @@ Protocol some_proto
     UINT8 some_field;
     UINT8 next_field = FormatString("%s", this);
 }
+
+Protocol some_other_proto
+{
+    UINT16 field3;
+}
