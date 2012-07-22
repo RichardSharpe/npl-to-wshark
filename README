@@ -11,10 +11,13 @@ test_driver is the current driver.
 
 make is your friend.
 
-'test_driver < test-proto.npl'
+For the moment you will need to be in the proto-tests directory to run the 
+commands until include paths are implemented.
+
+'../test_driver < test-proto.npl'
 
 or
 
-'test_driver test-proto.npl'
+'../test_driver test-proto.npl'
 
 This stuff will be GPL'd.
