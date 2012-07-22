@@ -13,6 +13,18 @@
 %left NAME STRING NUMBER HEXNUM .
 %left COMMA .
 
+definitions ::= entries .
+
+entries ::= entries entry .
+
+entries ::= .
+
+entry ::= protocol .
+
+entry ::= struct .
+
+struct ::= STRUCT NAME def_string .
+
 protocol ::= register_clause proto_clause .
 {
 
@@ -44,6 +56,8 @@ def_list ::= def_list def_item .
 def_list ::= .
 
 def_item ::= STRUCT def_string .
+
+def_item ::= struct .
 
 def_item ::= data_type NAME SEMICOLON .
 

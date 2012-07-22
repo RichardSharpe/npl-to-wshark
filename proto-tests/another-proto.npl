@@ -1,0 +1,5 @@
+//Another protocol ...
+struct some_struct {
+  UINT32 field1;
+  UINT32 field2;
+}
