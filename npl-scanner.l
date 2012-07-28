@@ -126,6 +126,8 @@
 
 ","	   { string_buf[0] = '\0'; return COMMA; }
 
+"+"	   { string_buf[0] = '\0'; return PLUS; }
+
 [a-zA-Z_][a-zA-Z0-9_]+ { 
 
 	string_buf_p = string_buf;

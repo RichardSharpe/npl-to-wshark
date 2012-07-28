@@ -127,8 +127,20 @@ int main(int argc, char *argv[])
 			cout << "LexCode = RBRACE\n";
 			break;
 
+		case LBRACK:
+			cout << "LexCode = LBRACK\n";
+			break;
+
+		case RBRACK:
+			cout << "LexCode = RBRACK\n";
+			break;
+
 		case SEMICOLON:
 			cout << "LexCode = SEMICOLON\n";
+			break;
+
+		case PLUS:
+			cout << "Lexcode = PLUS\n";
 			break;
 
 		default:

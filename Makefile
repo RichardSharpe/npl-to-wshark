@@ -7,7 +7,7 @@ CXXFLAGS = -g
 test_driver: test_driver.o npl-scanner.o npl-to-wshark.o
 	$(CXX) -o test_driver test_driver.o npl-scanner.o npl-to-wshark.o -lm -lfl
 
-test_driver.o: test_driver.c npl-scanner.yy.h
+test_driver.o: test_driver.cpp npl-scanner.yy.h
 
 npl-scanner.o:	npl-scanner.yy.h npl-scanner.yy.cpp npl-to-wshark.h
 	$(CXX) -c -o npl-scanner.o npl-scanner.yy.cpp

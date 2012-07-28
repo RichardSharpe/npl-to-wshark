@@ -55,13 +55,33 @@ def_list ::= def_list def_item .
 
 def_list ::= .
 
+string_expr ::= .
+
+string_expr ::= string_expr STRING .
+
+string_expr ::= string_expr STRING PLUS .
+
+format_string ::= FORMATSTRING LPAREN params_list RPAREN .
+
+format_string ::= string_expr .
+
+format_string_expr ::= .
+
+format_string_expr ::= EQUAL format_string .
+
+array_spec ::= .
+
+array_spec ::= LBRACK array_size RBRACK .
+
 def_item ::= STRUCT def_string .
 
 def_item ::= struct .
 
-def_item ::= data_type NAME SEMICOLON .
+def_item ::= data_type NAME array_spec format_string_expr SEMICOLON .
 
-def_item ::= data_type NAME EQUAL format_string SEMICOLON .
+array_size ::= NAME .
+
+array_size ::= number_type .
 
 data_type ::= UINT8 .
 
@@ -73,7 +93,9 @@ data_type ::= UINT64 .
 
 def_item ::= ASCIISTRING RPAREN NUMBER LPAREN NAME SEMICOLON .
 
-format_string ::= FORMATSTRING LPAREN params_list RPAREN .
+number_type ::= NUMBER .
+
+number_type ::= HEXNUM .
 
 params_list ::= params_list COMMA param_item .
 
@@ -83,6 +105,4 @@ param_item ::= NAME .
 
 param_item ::= STRING .
 
-param_item ::= NUMBER .
-
-param_item ::= HEXNUM .
+param_item ::= number_type .

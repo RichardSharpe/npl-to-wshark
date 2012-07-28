@@ -8,5 +8,5 @@ Protocol some_proto
 
 Protocol some_other_proto
 {
-    UINT16 field3;
+    UINT16 field3[10] = "abc" + "abc";
 }
